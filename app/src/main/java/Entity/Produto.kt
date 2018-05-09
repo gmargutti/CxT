@@ -11,7 +11,7 @@ class Produto{
     var dataFim: Date? = null;
     var local: String = "";
 
-    constructor(nome: String, descricao: String, preco: Double, quantidade: Int, dataInicio: Date, DataFim: Date, local: String = ""){
+    constructor(nome: String, descricao: String, preco: Double, quantidade: Int, dataInicio: Date, dataFim: Date, local: String = ""){
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;

@@ -1,7 +1,6 @@
 package CustomWatchers
 
 import android.text.Editable
-import android.widget.EditText
 
 class DecimalWatcher : AbstractCustomWatcher()
 {
