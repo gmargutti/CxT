@@ -1,40 +1,23 @@
 package DAO
 
 import Entity.Produto
+import android.arch.persistence.room.*
+import android.arch.persistence.room.OnConflictStrategy.REPLACE
 
-class ProdutoDAO{
-    companion object {
-        @JvmStatic
-        fun insert(produto: Produto){
+@Dao interface ProdutoDAO
+{
+    @Query("SELECT * FROM Produto WHERE Produto.id = :id")
+    fun getProduto(id: Int): Produto;
 
-        }
+    @Query("select * from Produto")
+    fun getProdutoList(): List<Produto>;
 
-        @JvmStatic
-        fun select(produto: Produto){
+    @Insert(onConflict = REPLACE)
+    fun insert(p: Produto);
 
-        }
+    @Update(onConflict =  REPLACE)
+    fun update(p: Produto);
 
-        @JvmStatic
-        fun delete(produto: Produto){
-
-        }
-
-        @JvmStatic
-        fun getList(list: ArrayList<Produto>? = null){
-            if(list != null)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-
-        @JvmStatic
-        fun update(newProduto: Produto, oldProduto: Produto)
-        {
-
-        }
-    }
+    @Delete
+    fun delete(p: Produto);
 }

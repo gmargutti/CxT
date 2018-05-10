@@ -1,7 +1,6 @@
-package CustomWatchers
+package CustomListeners
 
 import android.text.TextWatcher
-import android.widget.EditText
 
 abstract class AbstractCustomWatcher : TextWatcher
 {

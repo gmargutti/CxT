@@ -18,7 +18,7 @@ class ProdutosAdapter(private val list: ArrayList<Produto>, private val act: Act
         var item = getItem(position);
         txt.text = item.nome;
         txt = view.findViewById(R.id.txtDtInicio);
-        txt.text = if(item.dataInicio == null) "N/D" else SimpleDateFormat("dd/MM/yyy").format(item.dataInicio);
+        txt.text = item.dataInicio;
         return view;
     }
 

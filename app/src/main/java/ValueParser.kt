@@ -6,9 +6,8 @@ import java.util.*
 
 class ValueParser
 {
-    companion object
-    {
-//        fun getValue(text: EditText) : Any?
+    companion object {
+        //        fun getValue(text: EditText) : Any?
 //        {
 //            var value: Any? = null;
 //            var valueString: String = text.toString();
@@ -20,17 +19,16 @@ class ValueParser
 //            }
 //            return value;
 //        }
-        fun getInt(value: String): Int
-        {
-            return if(value == "") 0 else value.toInt();
+        fun getInt(value: String): Int {
+            return if (value == "") 0 else value.toInt();
         }
-        fun getDouble(value: String): Double
-        {
-            return if(value == "") 0.0 else value.toDouble();
+
+        fun getDouble(value: String): Double {
+            return if (value == "") 0.0 else value.toDouble();
         }
-        fun getDate(value: String): Date?
-        {
-            return if(value == "") null else SimpleDateFormat("dd/MM/yyyy").parse(value);
+
+        fun getDate(value: String): Date? {
+            return if (value == "") null else SimpleDateFormat("dd/MM/yyyy").parse(value);
         }
     }
 }
