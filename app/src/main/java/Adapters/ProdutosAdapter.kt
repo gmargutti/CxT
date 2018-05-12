@@ -19,6 +19,7 @@ class ProdutosAdapter(private val list: ArrayList<Produto>, private val act: Act
         txt.text = item.nome;
         txt = view.findViewById(R.id.txtDtInicio);
         txt.text = item.dataInicio;
+        item.viewIndex = position;
         return view;
     }
 

@@ -7,32 +7,31 @@ class ProdutoViewModel
 {
     companion object {
         private var dao = DatabaseConnection.getDB().produtoDao();
-        @JvmStatic
+
         fun insert(produto: Produto)
         {
             dao.insert(produto);
-            CustomGlobal.listProdutos.add(produto);
+            if(produto.viewIndex == -1)
+                CustomGlobal.listProdutos.add(produto)
+            else
+                CustomGlobal.listProdutos.set(produto.viewIndex, produto);
         }
 
-        @JvmStatic
         fun getProduto(produto: Produto): Produto
         {
             return dao.getProduto(produto.id);
         }
 
-        @JvmStatic
         fun delete(produto: Produto)
         {
-
+            dao.delete(produto);
         }
 
-        @JvmStatic
         fun getProdutoList(): ArrayList<Produto>
         {
             return ArrayList(dao.getProdutoList());
         }
 
-        @JvmStatic
         fun update(newProduto: Produto, oldProduto: Produto)
         {
 
