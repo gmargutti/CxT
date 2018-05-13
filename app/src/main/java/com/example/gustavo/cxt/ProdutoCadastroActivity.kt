@@ -33,7 +33,7 @@ class ProdutoCadastroActivity : CustomActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        updateContext();
+        //updateContext();
         setContentView(R.layout.activity_produtocadastro)
         //Set listeners
         btnVoltar.setOnClickListener(btnVoltar_Click)

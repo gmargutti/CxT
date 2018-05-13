@@ -1,10 +1,10 @@
 package com.example.gustavo.cxt
 
 import Adapters.ProdutosAdapter
-import CustomAlertDialog.CustomAlert
 import ViewModel.ProdutoViewModel
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -24,20 +24,23 @@ class MainActivity : CustomActivity() {
             startActivityForResult(intent, 0);
     }
     private val listItem_LongClick = AdapterView.OnItemLongClickListener { parent, view, position, id ->
-        ProdutoViewModel.delete(CustomGlobal.listProdutos.get(position));
-        var c = CustomGlobal.context;
-        if(CustomAlert().show("Atenção", "Isso irá deletar o item selecionado. Deseja prosseguir?"))
-        {
-            CustomGlobal.listProdutos.removeAt(position);
+        var builder = AlertDialog.Builder(this);
+        builder.setTitle("Atenção")
+        builder.setMessage("Isso irá deletar o registro selecionado. Deseja prosseguir?");
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+            var item = CustomGlobal.listProdutos.get(position);
+            ProdutoViewModel.delete(item);
+            CustomGlobal.listProdutos.removeAt(item.viewIndex);
             adapter.notifyDataSetChanged();
-        };
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
         true;
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        updateContext();
         setContentView(R.layout.activity_main)
-
+        updateContext();
         btnNew.setOnClickListener(add_Produto);
         listItems.onItemClickListener = listItem_Click;
         listItems.onItemLongClickListener = listItem_LongClick;
