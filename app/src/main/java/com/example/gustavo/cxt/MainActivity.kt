@@ -3,30 +3,47 @@ package com.example.gustavo.cxt
 import Adapters.ProdutosAdapter
 import ViewModel.ProdutoViewModel
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : CustomActivity() {
-    companion object {
-        private enum class OPERATION(val value: Int)
-        {
-            Add(0);
-        }
-    }
     private lateinit var adapter: ProdutosAdapter;
     private val add_Produto: View.OnClickListener = View.OnClickListener {
         val intent = Intent(this, ProdutoCadastroActivity::class.java);
-        startActivityForResult(intent, OPERATION.Add.value);
+        startActivityForResult(intent, 0);
     }
-
+    private val listItem_Click = AdapterView.OnItemClickListener {
+        parent, view, position, id ->
+            val intent = Intent(this, ProdutoCadastroActivity::class.java);
+            intent.putExtra("Produto", CustomGlobal.listProdutos.get(position));
+            startActivityForResult(intent, 0);
+    }
+    private val listItem_LongClick = AdapterView.OnItemLongClickListener { parent, view, position, id ->
+        var builder = AlertDialog.Builder(this);
+        builder.setTitle("Atenção")
+        builder.setMessage("Isso irá deletar o registro selecionado. Deseja prosseguir?");
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+            var item = CustomGlobal.listProdutos.get(position);
+            ProdutoViewModel.delete(item);
+            CustomGlobal.listProdutos.removeAt(item.viewIndex);
+            adapter.notifyDataSetChanged();
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
+        true;
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        updateContext();
         setContentView(R.layout.activity_main)
-
+        updateContext();
         btnNew.setOnClickListener(add_Produto);
+        listItems.onItemClickListener = listItem_Click;
+        listItems.onItemLongClickListener = listItem_LongClick;
 
         if(CustomGlobal.listProdutos.isEmpty())
         {
@@ -37,7 +54,7 @@ class MainActivity : CustomActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == OPERATION.Add.value && resultCode == Activity.RESULT_OK)
+        if(resultCode == Activity.RESULT_OK)
             adapter.notifyDataSetChanged();
         super.onActivityResult(requestCode, resultCode, data);
     }

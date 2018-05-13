@@ -30,5 +30,10 @@ class ValueParser
         fun getDate(value: String): Date? {
             return if (value == "") null else SimpleDateFormat("dd/MM/yyyy").parse(value);
         }
+
+        fun getStringValue(value: Number): String
+        {
+            return if (value.toInt() == 0) "" else value.toString();
+        }
     }
 }
