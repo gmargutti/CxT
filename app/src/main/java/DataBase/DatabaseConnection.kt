@@ -2,7 +2,7 @@ package DataBase
 
 import android.arch.persistence.room.Room
 
-class DatabaseConnection
+abstract class DatabaseConnection
 {
     companion object {
         private var singleton: AppDatabase? = null;
