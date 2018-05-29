@@ -1,40 +1,66 @@
 package Adapters
 
 import Entity.Produto
-import android.app.Activity
+import android.content.Context
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
 import com.example.gustavo.cxt.R
-import java.text.SimpleDateFormat
+import kotlinx.android.synthetic.main.simple_listitem.view.*
 
-class ProdutosAdapter(private val list: ArrayList<Produto>, private val act: Activity): BaseAdapter()
+class ProdutosAdapter(private val list: ArrayList<Produto>, private val context: Context) :
+        RecyclerView.Adapter<ProdutosAdapter.ViewHolder>()
 {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
+    companion object
     {
-        var view: View = act.layoutInflater.inflate(CustomGlobal.ListView_item, parent, false);
-        var txt = view.findViewById<TextView>(R.id.txtNome);
-        var item = getItem(position);
-        txt.text = item.nome;
-        txt = view.findViewById(R.id.txtDtInicio);
-        txt.text = item.dataInicio;
-        item.viewIndex = position;
-        return view;
+        private lateinit var onClickListener: OnClickListener;
     }
 
-    override fun getItem(position: Int): Produto
+    class ViewHolder(val listItem: View) : RecyclerView.ViewHolder(listItem), View.OnClickListener, View.OnLongClickListener
     {
-        return list.get(position);
+
+        init
+        {
+            listItem.setOnClickListener(this);
+            listItem.setOnLongClickListener(this);
+        }
+
+        override fun onClick(v: View?) {
+            onClickListener.onClick(adapterPosition, v);
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            onClickListener.onLongClick(adapterPosition, v);
+            return true;
+        }
+
     }
 
-    override fun getItemId(position: Int): Long
-    {
-        return 0;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val item: View = LayoutInflater.from(parent.context).inflate(R.layout.simple_listitem,
+                parent, false);
+        return ViewHolder(item);
     }
 
-    override fun getCount(): Int
+    override fun getItemCount(): Int {
+        return list.size;
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val currentItem = list[position];
+        holder.listItem.txtNome.text = currentItem.nome;
+        holder.listItem.txtDtInicio.text = currentItem.dataInicio;
+    }
+
+    fun setOnItemClickListener(listener: ProdutosAdapter.OnClickListener)
     {
-        return list.count();
+        onClickListener = listener;
+    }
+
+    interface OnClickListener
+    {
+        fun onClick(position: Int, v: View?);
+        fun onLongClick(position: Int, v: View?);
     }
 }

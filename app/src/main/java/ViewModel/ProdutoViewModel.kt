@@ -10,11 +10,8 @@ class ProdutoViewModel
 
         fun insert(produto: Produto)
         {
+            CustomGlobal.listProdutos.add(produto)
             dao.insert(produto);
-            if(produto.viewIndex == -1)
-                CustomGlobal.listProdutos.add(produto)
-            else
-                CustomGlobal.listProdutos.set(produto.viewIndex, produto);
         }
 
         fun getProduto(produto: Produto): Produto
@@ -24,6 +21,7 @@ class ProdutoViewModel
 
         fun delete(produto: Produto)
         {
+            CustomGlobal.listProdutos.remove(produto);
             dao.delete(produto);
         }
 
@@ -34,7 +32,9 @@ class ProdutoViewModel
 
         fun update(newProduto: Produto, oldProduto: Produto)
         {
-
+            val list = CustomGlobal.listProdutos;
+            list.set(list.indexOf(oldProduto), newProduto);
+            dao.update(newProduto);
         }
     }
 }

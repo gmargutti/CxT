@@ -11,12 +11,13 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_produtocadastro.*
 
 class ProdutoCadastroActivity : CustomActivity() {
-    private var currentProduto = Produto();
+    private var produtoEdit: Produto? = null;
 
     private val btnVoltar_Click = View.OnClickListener {
         this.finish();
     }
     private val btnSave_Click = View.OnClickListener {
+        val currentProduto = Produto();
         currentProduto.dataFim = txtDtFim.text.toString();
         currentProduto.dataInicio = txtDtInicio.text.toString();
         currentProduto.descricao = txtDescr.text.toString();
@@ -25,7 +26,13 @@ class ProdutoCadastroActivity : CustomActivity() {
         currentProduto.quantidade = ValueParser.getInt(txtQtd.text.toString());
         currentProduto.preco = ValueParser.getDouble(txtPreco.text.toString());
 
-        ProdutoViewModel.insert(currentProduto);
+        if(produtoEdit != null)
+        {
+            currentProduto.id = produtoEdit!!.id;
+            ProdutoViewModel.update(currentProduto, produtoEdit!!);
+        }
+        else
+            ProdutoViewModel.insert(currentProduto);
 
         setResult(Activity.RESULT_OK);
         this.finish();
@@ -33,7 +40,7 @@ class ProdutoCadastroActivity : CustomActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //updateContext();
+        updateContext();
         setContentView(R.layout.activity_produtocadastro)
         //Set listeners
         btnVoltar.setOnClickListener(btnVoltar_Click)
@@ -43,10 +50,12 @@ class ProdutoCadastroActivity : CustomActivity() {
         txtDtFim.setOnClickListener(DatePicker(this));
         txtDtInicio.setOnClickListener(DatePicker(this));
 
-        if(intent.extras != null)
-            if(intent.extras.containsKey("Produto"))
-                currentProduto = intent.extras["Produto"] as Produto;
-        loadActivityValues(currentProduto);
+        if(intent.extras != null) {
+            if (intent.extras.containsKey("Produto")) {
+                produtoEdit = intent.extras["Produto"] as Produto;
+                loadActivityValues(produtoEdit!!);
+            }
+        }
     }
 
     private fun loadActivityValues(produto: Produto)

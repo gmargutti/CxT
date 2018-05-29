@@ -42,4 +42,5 @@ dependencies {
 
     // ViewModel and LiveData
     kapt "android.arch.lifecycle:extensions:$lifecycle_version"
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }

@@ -30,9 +30,4 @@ data class Produto(
 
     @ColumnInfo(name = "local")
     var local: String = ""
-) : Serializable{
-
-
-    @Ignore
-    var viewIndex: Int = -1;
-}
+) : Serializable
