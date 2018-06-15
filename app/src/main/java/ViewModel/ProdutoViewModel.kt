@@ -1,16 +1,16 @@
 package ViewModel
 
-import DataBase.DatabaseConnection
+import CustomApplication.CustomApp
 import Entity.Produto
 
 class ProdutoViewModel
 {
     companion object {
-        private var dao = DatabaseConnection.getDB().produtoDao();
+        private var dao = CustomApp.getDataBaseConnection().produtoDao();
 
-        fun insert(produto: Produto)
+        fun insert(produto: Produto, listProdutos: ArrayList<Produto>)
         {
-            CustomGlobal.listProdutos.add(produto)
+            listProdutos.add(produto)
             dao.insert(produto);
         }
 
@@ -19,9 +19,9 @@ class ProdutoViewModel
             return dao.getProduto(produto.id);
         }
 
-        fun delete(produto: Produto)
+        fun delete(produto: Produto, listProdutos: ArrayList<Produto>)
         {
-            CustomGlobal.listProdutos.remove(produto);
+            listProdutos.remove(produto);
             dao.delete(produto);
         }
 
@@ -30,10 +30,9 @@ class ProdutoViewModel
             return ArrayList(dao.getProdutoList());
         }
 
-        fun update(newProduto: Produto, oldProduto: Produto)
+        fun update(newProduto: Produto, oldProduto: Produto, listProdutos: ArrayList<Produto>)
         {
-            val list = CustomGlobal.listProdutos;
-            list.set(list.indexOf(oldProduto), newProduto);
+            listProdutos.set(listProdutos.indexOf(oldProduto), newProduto);
             dao.update(newProduto);
         }
     }

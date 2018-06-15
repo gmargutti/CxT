@@ -38,7 +38,7 @@ class ProdutosAdapter(private val list: ArrayList<Produto>, private val context:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val item: View = LayoutInflater.from(parent.context).inflate(R.layout.simple_listitem,
+        val item: View = LayoutInflater.from(parent.context).inflate(R.layout.itemProduto,
                 parent, false);
         return ViewHolder(item);
     }

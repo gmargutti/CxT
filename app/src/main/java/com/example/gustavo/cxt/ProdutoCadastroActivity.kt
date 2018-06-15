@@ -5,14 +5,15 @@ import CustomListeners.DecimalWatcher
 import Entity.Produto
 import ViewModel.ProdutoViewModel
 import android.app.Activity
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_produtocadastro.*
+import CustomApplication.CustomApp
+import android.support.v7.app.AppCompatActivity
 
-class ProdutoCadastroActivity : CustomActivity() {
+class ProdutoCadastroActivity : AppCompatActivity() {
     private var produtoEdit: Produto? = null;
-
+    private lateinit var app: CustomApp;
     private val btnVoltar_Click = View.OnClickListener {
         this.finish();
     }
@@ -29,10 +30,10 @@ class ProdutoCadastroActivity : CustomActivity() {
         if(produtoEdit != null)
         {
             currentProduto.id = produtoEdit!!.id;
-            ProdutoViewModel.update(currentProduto, produtoEdit!!);
+            ProdutoViewModel.update(currentProduto, produtoEdit!!, app.listProdutos);
         }
         else
-            ProdutoViewModel.insert(currentProduto);
+            ProdutoViewModel.insert(currentProduto, app.listProdutos);
 
         setResult(Activity.RESULT_OK);
         this.finish();
@@ -40,8 +41,8 @@ class ProdutoCadastroActivity : CustomActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        updateContext();
         setContentView(R.layout.activity_produtocadastro)
+        app = application as CustomApp;
         //Set listeners
         btnVoltar.setOnClickListener(btnVoltar_Click)
         btnSalvar.setOnClickListener(btnSave_Click);
