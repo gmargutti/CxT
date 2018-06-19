@@ -10,11 +10,11 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_produtos.*
 import CustomApplication.CustomApp
 import android.support.v7.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class ProdutosActivity : AppCompatActivity() {
     private lateinit var produtosAdapter: ProdutosAdapter;
     private lateinit var app: CustomApp;
     private val manager: RecyclerView.LayoutManager = LinearLayoutManager(this);
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
         override fun onLongClick(position: Int, v: View?)
         {
-            var builder = AlertDialog.Builder(this@MainActivity);
+            var builder = AlertDialog.Builder(this@ProdutosActivity);
             builder.setTitle("Atenção!");
             builder.setMessage("Isso irá deletar o registro. Deseja prosseguir?");
             builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_produtos)
         btnNew.setOnClickListener(add_Produto);
         app = application as CustomApp;
         if(app.listProdutos.isEmpty())
